@@ -1,0 +1,78 @@
+<div class="col-md-3">
+
+				<div ng-repeat="level in hierarchyLevels" >
+					<div class="voffset2">
+						<button type="button" class="btn btn-default btn-custom" ng-disabled="disableLevel($index)">Select {{level.name}}</button>
+					</div>
+					<div ng-show="getLocation($index) != null">
+						<div>{{level.name}}: {{getLocation($index).name}}</div>
+						<div>ExtId: {{getLocation($index).extId}}</div>
+					</div>
+				</div>
+				<div class="voffset2">
+					<button type="button" class="btn btn-default btn-custom" ng-disabled="disableLocation()">Select Location</button>
+				</div>
+				<div ng-show="location != null">
+					<div>ExtId: {{location.extId}}</div>
+					<div>Name: {{location.name}}</div>
+					<div>Latitude: {{location.latitude}}</div>
+					<div>Longitude: {{location.longitude}}</div>				
+				</div>
+<!-- 				<div class="voffset2"> -->
+<!-- 					<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Select Household</button> -->
+<!-- 				</div> -->
+				<div class="voffset2">
+					<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Select Individual</button>
+				</div>
+				<div ng-show="individual != null">
+					ExtId:
+					<br/>
+					First Name:
+					<br/>
+					Last Name:				
+				</div>
+		</div>
+		<div class="col-md-6">
+				<div ng-repeat="item in hierarchyItems | filter:byParent()">
+    				<div class="text-center hierarchyItem" ng-click="selectHierarchyItem(item)">
+    					<h3>{{item.name}}</h3>
+    					<h4>{{item.extId}}</h4>
+    				</div>
+  				</div>
+  				
+		</div>
+		<div class="col-md-3">
+			<div>
+				<button type="button" class="btn btn-default btn-custom" ng-disabled="disableLocation()" ng-click="go('/form/location')">Create Location</button>
+			</div>
+			<div class="voffset2">
+				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Create Visit</button>
+			</div>
+			<div class="voffset2">
+				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Clear Location</button>
+			</div>
+			<div class="voffset2">
+				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Clear Visit</button>
+			</div>
+			<div class="voffset4">
+				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Household</button>
+			</div>
+			<div class="voffset2">
+				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Membership</button>
+			</div>
+			<div class="voffset2">
+				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Relationship</button>
+			</div>
+			<div class="voffset2">
+				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">In Migration</button>
+			</div>
+			<div class="voffset2">
+				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Out Migration</button>
+			</div>
+			<div class="voffset2">
+				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Pregnancy Registration</button>
+			</div>
+			<div class="voffset2">
+				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Birth Registration</button>
+			</div>
+		</div>
