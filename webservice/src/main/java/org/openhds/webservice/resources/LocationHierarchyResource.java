@@ -51,5 +51,11 @@ public class LocationHierarchyResource {
 		
 		return locationHierarcies;
 	}
+	
+	@RequestMapping(value = "/levels", method = RequestMethod.GET)
+	@ResponseBody
+	public List<LocationHierarchyLevel> getAllLevels() {
+		return locationHierarchyService.getAllLevels();
+	}
 
 }
