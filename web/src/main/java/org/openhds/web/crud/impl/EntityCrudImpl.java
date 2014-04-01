@@ -30,9 +30,6 @@ import org.openhds.web.service.WebFlowService;
 import org.openhds.web.ui.NavigationMenuBean;
 import org.openhds.web.ui.PagingState;
 import org.springframework.binding.message.MessageContext;
-import org.springframework.webflow.action.AbstractAction;
-import org.springframework.webflow.execution.Event;
-import org.springframework.webflow.execution.RequestContext;
 
 /**
  * Generic implementation of the EntityCrud interface
@@ -43,7 +40,7 @@ import org.springframework.webflow.execution.RequestContext;
  * @param <PK>
  */
 
-public class EntityCrudImpl<T, PK extends Serializable> implements EntityCrud<T, PK> {
+public class EntityCrudImpl<T, PK extends Serializable> implements EntityCrud<T, PK>, Serializable {
 
     static Log log = LogFactory.getLog(EntityCrudImpl.class);
     
