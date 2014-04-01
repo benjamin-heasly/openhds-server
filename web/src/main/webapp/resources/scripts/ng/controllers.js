@@ -45,9 +45,11 @@ angular.module('tabletuing.controllers', []).
 		   $scope.parentExtId = selectedItem.extId;
 	   }
 	   
-	   var locationHierarchyResource = $resource('/openhds2/api/rest/locationhierarchies/:path');
+	   var locationHierarchyResource = $resource(contextPath + '/api/rest/locationhierarchies/:path');
 	    
 	   $scope.init = function () {
+
+		   
 		   var fullHierarchy = locationHierarchyResource.get();
 		   fullHierarchy.$promise.then(function (result) {
 		       $scope.hierarchyItems = result.locationHierarchies;
@@ -91,7 +93,7 @@ angular.module('tabletuing.controllers', []).
 	        
 	        $scope.reset();
 	        
-	        var locationResource = $resource('/openhds2/api/rest/locations/:extId');
+	        var locationResource = $resource(contextPath + '/api/rest/locations/:extId');
 	        
 	        $scope.getLocations = function() {
 	        	locationResource.get({}, function(locationResource) {

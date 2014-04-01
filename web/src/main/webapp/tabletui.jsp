@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@ page import="java.util.*" %>
 <html lang="en" ng-app="tabletuing">
 <head>
 	<meta charset="utf-8">
@@ -11,6 +12,11 @@
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 	<!-- bootstrap optional theme -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+	
+	<script type="text/javascript">
+    	var contextPath = "<%= application.getContextPath()  %>";
+	</script>
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="resources/lib/ng/angular.js"></script>
 	<script src="resources/lib/ng/angular-route.js"></script>
@@ -22,6 +28,7 @@
 	<script src="resources/scripts/ng/directives.js"></script>
 </head>
 <body>
+
 	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -31,6 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
+
           <a class="navbar-brand" href="#">OpenHDS</a>
         </div>
         <div class="collapse navbar-collapse">
