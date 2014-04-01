@@ -10,6 +10,7 @@ import org.openhds.controller.idgeneration.Generator;
 import org.openhds.controller.service.EntityService;
 import org.openhds.controller.service.LocationHierarchyService;
 import org.openhds.dao.service.GenericDao;
+import org.openhds.dao.service.GenericDao.OrderProperty;
 import org.openhds.domain.annotations.Authorized;
 import org.openhds.domain.model.Location;
 import org.openhds.domain.model.LocationHierarchy;
@@ -372,8 +373,17 @@ public class LocationHierarchyServiceImpl implements LocationHierarchyService {
     	return genericDao.findByProperty(LocationHierarchy.class, "level", highestLevel);
     }
     
+	OrderProperty locationHierarchyKeyIdentifier = new OrderProperty() {
+		public String getPropertyName() {
+			return "keyIdentifier";
+		}
+		public boolean isAscending() {
+			return true;
+		}	
+	};
+    
     public List<LocationHierarchyLevel> getAllLevels() {
-    	return genericDao.findAll(LocationHierarchyLevel.class, false);
+    	return genericDao.findAllWithOrder(LocationHierarchyLevel.class, locationHierarchyKeyIdentifier);
     }
                    
     public LocationHierarchyLevel getLowestLevel() {	  	
