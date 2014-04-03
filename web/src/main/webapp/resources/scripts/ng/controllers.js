@@ -8,7 +8,7 @@ angular.module('tabletuing.controllers', []).
 	   // full hierarchy
 	   $scope.hierarchyItems;
 	   $scope.selectedHierachyItem = null;
-	   var selectedHierList = [];
+	   $scope.selectedHierList = [];
 	   
 	   $scope.hierarchyLevels = [];
 	   
@@ -20,16 +20,16 @@ angular.module('tabletuing.controllers', []).
 	   
 	   $scope.getLocation = function(index) {
 		   var location = null;
-		   if (index < $scope.hierarchyLevels.length && selectedHierList[index] != null) {
-			   location = selectedHierList[index];
+		   if (index < $scope.hierarchyLevels.length && $scope.selectedHierList[index] != null) {
+			   location = $scope.selectedHierList[index];
 		   }
 		   return location;
 	   };
 	   $scope.disableLevel = function(index) {
-		   return !(index == selectedHierList.length);
+		   return !(index == $scope.selectedHierList.length);
 	   };
 	   $scope.disableLocation = function() {
-		   return selectedHierList.length < $scope.hierarchyLevels.length;
+		   return $scope.selectedHierList.length < $scope.hierarchyLevels.length;
 	   };
 	   
 	   $scope.byParent = function() {
@@ -40,7 +40,7 @@ angular.module('tabletuing.controllers', []).
 	   
 	   $scope.selectHierarchyItem = function(selectedItem) {
 		   //console.log("Setting selected hierarchy item to " + selectedItem.name);
-		   selectedHierList.push(selectedItem);
+		   $scope.selectedHierList.push(selectedItem);
 		   $scope.selectedHierarchyItem = selectedItem;
 		   $scope.parentExtId = selectedItem.extId;
 	   }
