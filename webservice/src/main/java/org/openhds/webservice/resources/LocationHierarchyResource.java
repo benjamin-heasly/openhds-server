@@ -1,5 +1,6 @@
 package org.openhds.webservice.resources;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,10 @@ import org.openhds.domain.model.LocationHierarchy;
 import org.openhds.domain.model.LocationHierarchyLevel;
 import org.openhds.domain.model.wrappers.LocationHierarchies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -51,6 +55,16 @@ public class LocationHierarchyResource {
 		
 		return locationHierarcies;
 	}
+	
+    @RequestMapping(value = "/{extId}", method = RequestMethod.GET)
+    public ResponseEntity<? extends Serializable> getLocationHierarchyByExtId(@PathVariable String extId) {
+        LocationHierarchy locationHierarchy = locationHierarchyService.findLocationHierarchyById(extId, null);
+        if (locationHierarchy == null) {
+            return new ResponseEntity<String>("", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<LocationHierarchy>(locationHierarchy, HttpStatus.OK);
+    }
 	
 	@RequestMapping(value = "/levels", method = RequestMethod.GET)
 	@ResponseBody
