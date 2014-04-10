@@ -51,7 +51,6 @@
       </div>
     </div>
      <div class="container" ng-controller="MainCtrl" data-ng-init="init()" ng-view>
-		<div ng-view></div>
      </div><!-- /.container -->
 
     
