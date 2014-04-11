@@ -99,6 +99,7 @@ angular.module('tabletuing.controllers', []).
         
        // $scope.reset();
         
+	  	// location resource
         var locationResource = $resource(contextPath + '/api/rest/locations/:extId');
         $scope.createLocation = function() {
         	locationResource.save($scope.location, function(locationResource) {
