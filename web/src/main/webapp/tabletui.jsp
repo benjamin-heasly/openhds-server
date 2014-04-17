@@ -17,10 +17,11 @@
     	var contextPath = "<%= application.getContextPath()  %>";
 	</script>
 	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>  -->
 	<script src="resources/lib/ng/angular.js"></script>
 	<script src="resources/lib/ng/angular-route.js"></script>
 	<script src="resources/lib/ng/angular-resource.js"></script>
+	<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
 	<script src="resources/scripts/ng/app.js"></script>
 	<script src="resources/scripts/ng/services.js"></script>
 	<script src="resources/scripts/ng/controllers.js"></script>
@@ -50,7 +51,7 @@
         </div><!--/.nav-collapse -->
       </div>
     </div>
-     <div class="container" ng-controller="MainCtrl" data-ng-init="init()" ng-view>
+     <div class="container" ng-controller="MainCtrl" ng-view>
      </div><!-- /.container -->
 
     

@@ -11,14 +11,14 @@
 					</div>
 				</div>
 				<div class="voffset2">
-					<h3><span ng-class="disableLocation() ? 'label label-default' : 'label label-success'">Select Location</span></h3>
+					<h3><span ng-class="selectLocationEnabled() ? 'label label-success' : 'label label-default' ">Select Location</span></h3>
 <!-- 					<button type="button" class="btn btn-default btn-custom" ng-disabled="disableLocation()">Select Location</button> -->
 				</div>
-				<div ng-show="location != null">
-					<div>ExtId: {{location.extId}}</div>
-					<div>Name: {{location.name}}</div>
-					<div>Latitude: {{location.latitude}}</div>
-					<div>Longitude: {{location.longitude}}</div>				
+				<div ng-show="selectedLocation != null">
+					<div>ExtId: {{selectedLocation.extId}}</div>
+					<div>Name: {{selectedLocation.locationName}}</div>
+					<div>Latitude: {{selectedLocation.latitude}}</div>
+					<div>Longitude: {{selectedLocation.longitude}}</div>				
 				</div>
 <!-- 				<div class="voffset2"> -->
 <!-- 					<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Select Household</button> -->
@@ -46,13 +46,13 @@
 		</div>
 		<div class="col-md-3">
 			<div>
-				<button type="button" class="btn btn-default btn-custom" ng-disabled="disableLocation()" ng-click="createLocation(selectedHierarchyItem.extId)">Create Location</button>
+				<button type="button" class="btn btn-default btn-custom" ng-disabled="!createLocationEnabled()" ng-click="createLocation(selectedHierarchyItem.extId)">Create Location</button>
 			</div>
 			<div class="voffset2">
 				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Create Visit</button>
 			</div>
 			<div class="voffset2">
-				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Clear Location</button>
+				<button type="button" class="btn btn-default btn-custom" ng-disabled="!clearLocationEnabled()" ng-click="clearLocation()">Clear Location</button>
 			</div>
 			<div class="voffset2">
 				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Clear Visit</button>
@@ -61,7 +61,7 @@
 				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Create Household</button>
 			</div>
 			<div class="voffset2">
-				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Create Relationship</button>
+				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Create Individual</button>
 			</div>
 <!-- 			<div class="voffset2"> -->
 <!-- 				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Membership</button> -->

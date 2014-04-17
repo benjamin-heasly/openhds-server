@@ -8,7 +8,7 @@ angular.module('tabletuing', [
   'tabletuing.services',
   'tabletuing.directives',
   'tabletuing.controllers'
-]).
+  ]).
 
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.

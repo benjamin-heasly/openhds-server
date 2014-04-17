@@ -19,18 +19,25 @@
         <bean class="org.openhds.webservice.WhitelistAuthenticationInteceptor" />
     </mvc:interceptors>
 
-    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-        <property name="messageConverters">
-            <array>
-                <ref bean="marshallingHttpMessageConverter" />
-            </array>
-        </property>
-    </bean>
+<!--     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"> -->
+<!--         <property name="messageConverters"> -->
+<!--             <array> -->
+<!--                 <ref bean="marshallingHttpMessageConverter" /> -->
+<!--             </array> -->
+<!--         </property> -->
+<!--     </bean> -->
 
-    <bean id="marshallingHttpMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
-        <property name="marshaller" ref="jaxbMarshaller" />
-        <property name="unmarshaller" ref="jaxbMarshaller" />
-    </bean>
+<!--     <bean id="marshallingHttpMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter"> -->
+<!--         <property name="marshaller" ref="jaxbMarshaller" /> -->
+<!--         <property name="unmarshaller" ref="jaxbMarshaller" /> -->
+<!--     </bean> -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+	    <property name="messageConverters">
+	        <list>
+	            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+	        </list>
+	    </property>
+	</bean>
     
     <mvc:annotation-driven/>
 </beans>
