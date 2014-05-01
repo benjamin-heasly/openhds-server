@@ -59,17 +59,14 @@ public class LocationResource {
     @ResponseBody
     public Locations getAllLocations() {
         List<Location> locations = locationHierarchyService.getAllLocations();
-        List<Location> copies = new ArrayList<Location>(locations.size());
-
-        for (Location loc : locations) {
-            Location copy = ShallowCopier.copyLocation(loc);
-            copies.add(copy);
-        }
-
-        Locations allLocations = new Locations();
-        allLocations.setLocations(copies);
-        return allLocations;
+        return copyLocations(locations);
     }
+    
+	@RequestMapping(value = "/locationLevel/{locationLevel}", method = RequestMethod.GET)
+	@ResponseBody
+	public Locations getLocationsForLocationLevel(@PathVariable String locationLevel) {
+		return copyLocations(locationHierarchyService.getLocationsForLocationLevel(locationLevel));
+	}
 
     @RequestMapping(value = "/cached", method = RequestMethod.GET)
     public void getAllCachedLocations(HttpServletResponse response) {
@@ -97,5 +94,19 @@ public class LocationResource {
         }
 
         return new ResponseEntity<Location>(ShallowCopier.copyLocation(location), HttpStatus.CREATED);
+    }
+    
+    private Locations copyLocations(List<Location> originals) {
+    	List<Location> copies = new ArrayList<Location>(originals.size());
+
+        for (Location loc : originals) {
+            Location copy = ShallowCopier.copyLocation(loc);
+            copies.add(copy);
+        }
+
+        Locations locations = new Locations();
+        locations.setLocations(copies);
+        
+        return locations;
     }
 }

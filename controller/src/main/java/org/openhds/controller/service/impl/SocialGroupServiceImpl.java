@@ -2,6 +2,7 @@ package org.openhds.controller.service.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -10,24 +11,32 @@ import org.openhds.controller.exception.ConstraintViolations;
 import org.openhds.controller.idgeneration.SocialGroupGenerator;
 import org.openhds.controller.service.EntityService;
 import org.openhds.controller.service.IndividualService;
+import org.openhds.controller.service.ResidencyService;
 import org.openhds.controller.service.SocialGroupService;
 import org.openhds.dao.service.GenericDao;
 import org.openhds.domain.annotations.Authorized;
 import org.openhds.domain.model.Individual;
+import org.openhds.domain.model.Location;
 import org.openhds.domain.model.Membership;
 import org.openhds.domain.model.SocialGroup;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SocialGroupServiceImpl implements SocialGroupService {
-
+	
+	private static Logger log = LoggerFactory.getLogger(SocialGroupServiceImpl.class);
+	
 	private EntityService service;
 	private GenericDao genericDao;
 	private IndividualService individualService;
+	private ResidencyService residencyService;
 	private SocialGroupGenerator generator;
 	
-	public SocialGroupServiceImpl(GenericDao genericDao, IndividualService individualService, EntityService service, SocialGroupGenerator generator) {
+	public SocialGroupServiceImpl(GenericDao genericDao, IndividualService individualService, ResidencyService residencyService, EntityService service, SocialGroupGenerator generator) {
 		this.genericDao = genericDao;
 		this.individualService = individualService;
+		this.residencyService = residencyService;
 		this.service = service;
 		this.generator = generator;
 	}
@@ -185,8 +194,11 @@ public class SocialGroupServiceImpl implements SocialGroupService {
 	}
 
     private void assignId(SocialGroup socialGroup) throws ConstraintViolations {
+    	log.info("assignId for socialGroup with extId=[" + socialGroup.getExtId() + "]");
         String id = socialGroup.getExtId() == null ? "" : socialGroup.getExtId();
+        log.info("assignId for socialGroup=[" + id + "]");
         if (id.trim().isEmpty() && generator.generated) {
+        	log.info("Generating id for social group");
             generateId(socialGroup);
         }
     }
@@ -201,5 +213,19 @@ public class SocialGroupServiceImpl implements SocialGroupService {
     @Authorized("VIEW_ENTITY")
     public long getTotalSocialGroupCount() {
         return genericDao.getTotalCount(SocialGroup.class);
+    }
+    
+    @Override
+    @Authorized("VIEW_ENTITY")
+	public Set<SocialGroup> getSocialGroupsAssociatedWithLocation(Location location) {
+    	Set<SocialGroup> socialGroups = new HashSet<SocialGroup>();
+    	
+    	List<Individual> individuals = residencyService.getIndividualsByLocation(location);
+		for (Individual individual : individuals) {
+			List<SocialGroup> socialGroupsForIndividual = getAllSocialGroups(individual);
+			socialGroups.addAll(socialGroupsForIndividual);
+		}
+
+    	return socialGroups;
     }
 }

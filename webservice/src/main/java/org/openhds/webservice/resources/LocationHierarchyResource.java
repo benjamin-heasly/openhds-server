@@ -37,6 +37,7 @@ public class LocationHierarchyResource {
 		for (LocationHierarchy lh : allLocationHierarcies) {
 			LocationHierarchy copy = new LocationHierarchy();
 			copy.setExtId(lh.getExtId());
+			copy.setUuid(lh.getUuid());
 
 			LocationHierarchyLevel level = new LocationHierarchyLevel();
 			level.setName(lh.getLevel().getName());

@@ -1,0 +1,75 @@
+
+	<form name="householdForm" class="form-horizontal" novalidate>
+		<fieldset>
+
+			<legend>Create Household</legend>
+
+			<div class="form-group" ng-class="{'has-error' : householdForm.groupName.$invalid && !householdForm.groupName.$pristine}">
+				<label class="col-md-4 control-label" for="groupName">Name*</label>
+				<div class="col-md-4">
+					<input id="groupName" name="groupName" type="text"
+						placeholder="Household Name" class="form-control input-md"
+						ng-model="newHousehold.groupName" ng-required="true"> 
+						<span class="help-block" ng-show="householdForm.groupName.$invalid && !householdForm.groupName.$pristine">
+							<small ng-if="householdForm.groupName.$error.required">Required</small>
+						</span>
+				</div>
+			</div>
+	
+			<div class="form-group" ng-class="{'has-error' : householdForm.groupType.$invalid && !householdForm.groupType.$pristine}">
+				<label class="col-md-4 control-label" for="groupType">Type*</label>
+				<div class="col-md-4">
+					<select id="groupType" ng-model="newHousehold.groupType"
+						ng-required="true" class="form-control">
+						<!--  ng-options="g.name for g in groupTypes">-->
+						<option value="COH">Cohort</option>
+						<option value="FAM">Family</option>
+					</select> 
+					<span class="help-block" ng-show="householdForm.groupType.$invalid && !householdForm.groupType.$pristine">
+						<small ng-if="householdForm.groupType.$error.required">Required</small>
+					</span>
+				</div>
+			</div>
+			
+			<div class="form-group" ng-class="{'has-error' : householdForm.collectedBy.$invalid && !householdForm.collectedBy.$pristine}">
+				<label class="col-md-4 control-label" for="fieldWorkerId">Field Worker ID*</label>
+				<div class="col-md-4">
+					<input type="text" id="fieldWorkerId" name="fieldWorkerId" placeholder="Field Worker ID" class="form-control input-md" ng-model="newHousehold.collectedBy.extId" ng-required="true"/>
+					<span class="alert alert-error" ng-show="householdForm.collectedBy.$dirty && householdForm.collectedBy.$invalid">
+						<small ng-if="householdForm.collectedBy.extId.$error.required">Required</small>
+					</span>
+				</div>
+			</div>
+
+			<!-- Button (Double) -->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="createButton"></label>
+				<div class="col-md-8">
+					<button id="createButton" name="createButton" class="btn btn-default btn-inverse" ng-click="createNewHousehold()" ng-disabled="!householdForm.$valid">Create</button>
+					<button id="cancelButton" name="cancelButton" class="btn btn-default btn-inverse" ng-click="cancelNewHousehold()">Cancel</button>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
+
+<!-- 		<div> -->
+<!-- 			<button class="btn btn-inverse" ng-click="createLocation()" ng-disabled="!locationForm.$valid">Create</button> -->
+<!-- 			<button class="btn btn-inverse" ng-click="reset()">Reset</button> -->
+<!-- 			<button class="btn btn-inverse" ng-click="resetAll()">Reset All</button> -->
+<!-- 		</div> -->
+
+<!-- <br/> -->
+<!-- <div> -->
+<!-- 	<button type="button" class="btn btn-default" ng-click="getLocation('SUB000001')">Get location</button> -->
+<!-- </div> -->
+<!-- <div class="voffset2"> -->
+<!-- 	<button type="button" class="btn btn-default" ng-click="getLocations()">Get locations</button> -->
+<!-- </div> -->
+<!-- <div>{{selectedLocation}}</div> -->
+<!-- <div class="voffset2"></div> -->
+<!--  <button ng-click="open()">Click Me</button> -->
+<!-- <pre>newLocation = {{newLocation | json}}</pre> -->
+<!-- <pre>locations = {{locations | json}}</pre> -->
+<!-- <pre>master = {{master | json}}</pre> -->
+

@@ -488,5 +488,11 @@ public class LocationHierarchyServiceImpl implements LocationHierarchyService {
     public long getTotalLocationCount() {
         return genericDao.getTotalCount(Location.class);
     }
+    
+    @Override
+    @Authorized("VIEW_ENTITY")
+    public List<Location> getLocationsForLocationLevel(String locationLevelId) {
+    	return genericDao.findListByProperty(Location.class, "locationLevel.uuid", locationLevelId, true);
+    }
 
 }

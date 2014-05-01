@@ -97,5 +97,9 @@ public interface LocationHierarchyService {
 
 	@Authorized({PrivilegeConstants.VIEW_ENTITY})
     long getTotalLocationCount(); 
+	
+	@Authorized({PrivilegeConstants.VIEW_ENTITY}) 
+	List<Location> getLocationsForLocationLevel(String locationLevelId);
+	
 }
 

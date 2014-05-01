@@ -2,17 +2,17 @@
 
 				<div ng-repeat="level in hierarchyLevels" >
 					<div class="voffset2">
-						<h3><span ng-class="disableLevel($index) ? 'label label-default' : 'label label-success'">Select {{level.name}}</span></h3>
-<!-- 						<button type="button" class="btn btn-default btn-custom" ng-disabled="disableLevel($index)">Select {{level.name}}</button> -->
+						<!-- <h3><span ng-class="disableLevel($index) ? 'label label-default' : 'label label-success'">Select {{level.name}}</span></h3> -->
+ 						<button type="button" class="btn btn-default btn-custom" ng-disabled="disableLevel($index)" ng-click="levelSelected($index)">Select {{level.name}}</button>
 					</div>
-					<div ng-show="getLocation($index) != null">
-						<div>{{level.name}}: {{getLocation($index).name}}</div>
-						<div>ExtId: {{getLocation($index).extId}}</div>
+					<div ng-show="getLevel($index) != null">
+						<div>{{level.name}}: {{getLevel($index).name}}</div>
+						<div>ExtId: {{getLevel($index).extId}}</div>
 					</div>
 				</div>
 				<div class="voffset2">
-					<h3><span ng-class="selectLocationEnabled() ? 'label label-success' : 'label label-default' ">Select Location</span></h3>
-<!-- 					<button type="button" class="btn btn-default btn-custom" ng-disabled="disableLocation()">Select Location</button> -->
+					<!-- <h3><span ng-class="selectLocationEnabled() ? 'label label-success' : 'label label-default' ">Select Location</span></h3>-->
+					<button type="button" class="btn btn-default btn-custom" ng-disabled="disableLocation()" ng-click="selectLocation()">Select Location</button> 
 				</div>
 				<div ng-show="selectedLocation != null">
 					<div>ExtId: {{selectedLocation.extId}}</div>
@@ -20,54 +20,69 @@
 					<div>Latitude: {{selectedLocation.latitude}}</div>
 					<div>Longitude: {{selectedLocation.longitude}}</div>				
 				</div>
-<!-- 				<div class="voffset2"> -->
-<!-- 					<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Select Household</button> -->
-<!-- 				</div> -->
 				<div class="voffset2">
-					<h3><span ng-class="true ? 'label label-default' : 'label label-success'">Select Individual</span></h3>
-<!-- 					<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Select Individual</button> -->
+					<button type="button" class="btn btn-default btn-custom" ng-disabled="disableHousehold()" ng-click="selectHousehold()">Select Household</button>
 				</div>
-				<div ng-show="individual != null">
-					ExtId:
-					<br/>
-					First Name:
-					<br/>
-					Last Name:				
+				<div ng-show="selectedHousehold != null">
+					<div>ExtId: {{selectedHousehold.extId}}</div>
+					<div>Name: {{selectedHousehold.groupName}}</div>				
 				</div>
+<!-- 				<div class="voffset2"> -->
+<!-- 					<h3><span ng-class="true ? 'label label-default' : 'label label-success'">Select Individual</span></h3> -->
+<!--  					<button type="button" class="btn btn-default btn-custom" ng-disabled="disableIndividual()">Select Individual</button>  -->
+<!-- 				</div> -->
+<!-- 				<div ng-show="individual != null"> -->
+<!-- 					ExtId: -->
+<!-- 					<br/> -->
+<!-- 					First Name: -->
+<!-- 					<br/> -->
+<!-- 					Last Name:				 -->
+<!-- 				</div> -->
 		</div>
 		<div class="col-md-6">
 				<div ng-repeat="item in hierarchyItems | filter:byParent()">
-    				<div class="text-center hierarchyItem" ng-click="selectHierarchyItem(item)">
+					<h2 ng-show="$first">{{item.level.name}}s</h2>
+    				<div class="text-center hierarchyItem" ng-click="selectLevelItem(item)">
     					<h3>{{item.name}}</h3>
     					<h4>{{item.extId}}</h4>
     				</div>
   				</div>
-  				
+  				<!-- $rootScope.locations -->
+  				<div ng-repeat="loc in locations">
+					<h2 ng-show="$first">Locations</h2>
+    				<div class="text-center hierarchyItem" ng-click="selectLocationItem(loc)">
+    					<h3>{{loc.locationName}}</h3>
+    					<h4>{{loc.extId}}</h4>
+    				</div>
+  				</div>
 		</div>
 		<div class="col-md-3">
 			<div>
-				<button type="button" class="btn btn-default btn-custom" ng-disabled="!createLocationEnabled()" ng-click="createLocation(selectedHierarchyItem.extId)">Create Location</button>
+				<button type="button" class="btn btn-default btn-custom" ng-show="showCreateLocationButton()" ng-click="createLocation(selectedLevel.extId)">Create Location</button>
+			</div>
+<!-- 			<div class="voffset2"> -->
+<!-- 				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Create Visit</button> -->
+<!-- 			</div> -->
+<!-- 			<div class="voffset2"> -->
+<!-- 				<button type="button" class="btn btn-default btn-custom" ng-disabled="!clearLocationEnabled()" ng-click="clearLocation()">Clear Location</button> -->
+<!-- 			</div> -->
+<!-- 			<div class="voffset2"> -->
+<!-- 				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Clear Visit</button> -->
+<!-- 			</div> -->
+			<div class="voffset2">
+				<button type="button" class="btn btn-default btn-custom" ng-show="showCreateHouseholdButton()" ng-click="createHousehold()">Create Household</button>
 			</div>
 			<div class="voffset2">
-				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Create Visit</button>
+				<button type="button" class="btn btn-default btn-custom" ng-show="showCreateHeadOfHouseholdButton()">Create Head of Household</button>
 			</div>
 			<div class="voffset2">
-				<button type="button" class="btn btn-default btn-custom" ng-disabled="!clearLocationEnabled()" ng-click="clearLocation()">Clear Location</button>
-			</div>
-			<div class="voffset2">
-				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Clear Visit</button>
-			</div>
-			<div class="voffset4">
-				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Create Household</button>
-			</div>
-			<div class="voffset2">
-				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Create Individual</button>
+				<button type="button" class="btn btn-default btn-custom" ng-show="showCreateIndividualButton()">Create Individual</button>
 			</div>
 <!-- 			<div class="voffset2"> -->
 <!-- 				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Membership</button> -->
 <!-- 			</div> -->
 			<div class="voffset2">
-				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Create Relationship</button>
+				<button type="button" class="btn btn-default btn-custom" ng-show="showCreateRelationshipButton()">Create Relationship</button>
 			</div>
 <!-- 			<div class="voffset2"> -->
 <!-- 				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">In Migration</button> -->

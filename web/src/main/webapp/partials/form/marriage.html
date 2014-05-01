@@ -1,0 +1,33 @@
+
+	<form name="marriageForm" class="form-horizontal" novalidate>
+		<fieldset>
+
+			<!-- Form Name -->
+			<legend>Create Marriage</legend>
+
+			<div class="form-group">			
+				<label class="col-md-4 control-label">Location</label>
+				<div class="col-md-4 con">
+				 	<input type="text" class="form-control input-md" value="{{selectedLocation.name}}" ng-disabled="true"/>
+				</div>
+			</div>
+			
+			<div class="form-group">			
+				<label class="col-md-4 control-label">Household</label>
+				<div class="col-md-4 con">
+				 	<input type="text" class="form-control input-md" value="{{selectedHousehold.name}}" ng-disabled="true"/>
+				</div>
+			</div>
+
+			<!-- Button (Double) -->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="createButton"></label>
+				<div class="col-md-8">
+					<button id="createButton" name="createButton" class="btn btn-default btn-inverse" ng-click="createNewMarriage()" ng-disabled="!marriageForm.$valid">Create</button>
+					<button id="cancelButton" name="cancelButton" class="btn btn-default btn-inverse" ng-click="cancelNewMarriage()">Cancel</button>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
+

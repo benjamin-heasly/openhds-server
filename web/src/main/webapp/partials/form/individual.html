@@ -1,0 +1,123 @@
+
+	<form name="individualForm" class="form-horizontal" novalidate>
+		<fieldset>
+
+			<!-- Form Name -->
+			<legend>Create Head of Household/Individual</legend>
+			
+			<div class="form-group">			
+				<label class="col-md-4 control-label">Location</label>
+				<div class="col-md-4 con">
+				 	<input type="text" class="form-control input-md" value="{{selectedLocation.name}}" ng-disabled="true"/>
+				</div>
+			</div>
+			
+			<div class="form-group">			
+				<label class="col-md-4 control-label">Household</label>
+				<div class="col-md-4 con">
+				 	<input type="text" class="form-control input-md" value="{{selectedHousehold.name}}" ng-disabled="true"/>
+				</div>
+			</div>
+			
+			<!-- Text input -->
+			<div class="form-group" ng-class="{'has-error' : individualForm.firstName.$invalid && !individualForm.firstName.$pristine}">
+				<label class="col-md-4 control-label" for="firstName">First
+					Name*</label>
+				<div class="col-md-4">
+					<input id="firstName" name="firstName" type="text"
+						placeholder="First Name" class="form-control input-md"
+						ng-model="newIndividual.firstName" ng-required="true"> 
+						<span class="help-block" ng-show="individualForm.firstName.$invalid && !individualForm.firstName.$pristine">
+							<small ng-if="individualForm.firstName.$error.required">Required</small>
+						</span>
+				</div>
+			</div>
+			
+			<!-- Text input -->
+			<div class="form-group" ng-class="{'has-error' : individualForm.middleName.$invalid && !individualForm.middleName.$pristine}">
+				<label class="col-md-4 control-label" for="middleName">Middle
+					Name*</label>
+				<div class="col-md-4">
+					<input id="middleName" name="middleName" type="text"
+						placeholder="Middle Name" class="form-control input-md"
+						ng-model="newIndividual.middleName" ng-required="true"> 
+						<span class="help-block" ng-show="individualForm.middleName.$invalid && !individualForm.middleName.$pristine">
+							<small ng-if="individualForm.middleName.$error.required">Required</small>
+						</span>
+				</div>
+			</div>
+
+			<!-- Text input -->
+			<div class="form-group" ng-class="{'has-error' : individualForm.lastName.$invalid && !individualForm.lastName.$pristine}">
+				<label class="col-md-4 control-label" for="lastName">Last
+					Name*</label>
+				<div class="col-md-4">
+					<input id="lastName" name="lastName" type="text"
+						placeholder="Last Name" class="form-control input-md"
+						ng-model="newIndividual.lastName" ng-required="true"> 
+						<span class="help-block" ng-show="individualForm.lastName.$invalid && !individualForm.lastName.$pristine">
+							<small ng-if="individualForm.lastName.$error.required">Required</small>
+						</span>
+				</div>
+			</div>
+	
+			<div class="form-group" ng-class="{'has-error' : individualForm.gender.$invalid && !individualForm.gender.$pristine}">
+				<label class="col-md-4 control-label" for="gender">Gender*</label>
+				<div class="col-md-4">
+					<select id="gender" ng-model="newIndividual.gender"
+						ng-required="true" class="form-control">
+						<option value="M">Male</option>
+						<option value="F">Female</option>
+					</select> 
+					<span class="help-block" ng-show="individualForm.gender.$invalid && !individualForm.gender.$pristine">
+						<small ng-if="individualForm.gender.$error.required">Required</small>
+					</span>
+				</div>
+			</div>
+
+			<!-- Text input -->
+			<div class="form-group" ng-class="{'has-error' : individualForm.dob.$invalid && !individualForm.dob.$pristine}">
+				<label class="col-md-4 control-label" for="dob">Date of Birth*</label>
+				<div class="col-md-4">
+					<input id="dob" name="dob" type="text"
+						placeholder="Date of Birth" class="form-control input-md"
+						ng-model="newIndividual.dob" ng-required="true"> 
+						<span class="help-block" ng-show="individualForm.dob.$invalid && !individualForm.dob.$pristine">
+							<small ng-if="individualForm.dob.$error.required">Required</small>
+						</span>
+				</div>
+			</div>
+			
+			<div class="form-group" ng-class="{'has-error' : individualForm.mother.$invalid && !individualForm.mother.$pristine}">
+				<label class="col-md-4 control-label" for="mother">Mother</label>
+				<div class="col-md-4">
+					<select id="mother" ng-model="newIndividual.mother"
+						ng-required="true" class="form-control">
+<!-- 						<option value="M">Male</option> -->
+<!-- 						<option value="F">Female</option> -->
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group" ng-class="{'has-error' : individualForm.father.$invalid && !individualForm.father.$pristine}">
+				<label class="col-md-4 control-label" for="gender">Father</label>
+				<div class="col-md-4">
+					<select id="father" ng-model="newIndividual.father"
+						ng-required="true" class="form-control">
+<!-- 						<option value="M">Male</option> -->
+<!-- 						<option value="F">Female</option> -->
+					</select> 
+				</div>
+			</div>
+
+			<!-- Button (Double) -->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="createButton"></label>
+				<div class="col-md-8">
+					<button id="createButton" name="createButton" class="btn btn-default btn-inverse" ng-click="createNewIndividual()" ng-disabled="!individualForm.$valid">Create</button>
+					<button id="cancelButton" name="cancelButton" class="btn btn-default btn-inverse" ng-click="cancelNewIndividual()">Cancel</button>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>

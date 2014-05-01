@@ -1044,6 +1044,7 @@
 		    <bean class="org.openhds.controller.service.impl.SocialGroupServiceImpl">
 		        <constructor-arg ref="genericDao" />
     			<constructor-arg ref="individualService" />
+    			<constructor-arg ref="residencyService" />
     			<constructor-arg ref="entityService"/>
     			<constructor-arg ref="socialGroupIdGenerator" />
 		    </bean>

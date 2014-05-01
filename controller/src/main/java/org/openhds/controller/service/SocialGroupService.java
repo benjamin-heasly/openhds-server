@@ -2,10 +2,12 @@ package org.openhds.controller.service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 import org.openhds.controller.exception.ConstraintViolations;
 import org.openhds.domain.annotations.Authorized;
 import org.openhds.domain.model.Individual;
+import org.openhds.domain.model.Location;
 import org.openhds.domain.model.Membership;
 import org.openhds.domain.model.PrivilegeConstants;
 import org.openhds.domain.model.SocialGroup;
@@ -56,4 +58,7 @@ public interface SocialGroupService {
 
 	@Authorized({PrivilegeConstants.VIEW_ENTITY})
     long getTotalSocialGroupCount(); 
+	
+	@Authorized({PrivilegeConstants.VIEW_ENTITY}) 
+	Set<SocialGroup> getSocialGroupsAssociatedWithLocation(Location location);
 }

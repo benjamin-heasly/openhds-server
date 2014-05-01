@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.openhds.controller.exception.ConstraintViolations;
+import org.openhds.controller.service.LocationHierarchyService;
 import org.openhds.controller.service.SocialGroupService;
+import org.openhds.domain.model.Location;
 import org.openhds.domain.model.SocialGroup;
 import org.openhds.domain.model.wrappers.SocialGroups;
 import org.openhds.domain.util.ShallowCopier;
@@ -33,13 +36,15 @@ public class SocialGroupResource {
     private static final Logger logger = LoggerFactory.getLogger(SocialGroupResource.class);
 
     private SocialGroupService socialGroupService;
+    private LocationHierarchyService locationHierarchyService;
     private FieldBuilder fieldBuilder;
     private FileResolver fileResolver;
 
     @Autowired
-    public SocialGroupResource(SocialGroupService socialGroupService, FieldBuilder fieldBuilder,
+    public SocialGroupResource(SocialGroupService socialGroupService, LocationHierarchyService locationHierarchyService, FieldBuilder fieldBuilder,
             FileResolver fileResolver) {
         this.socialGroupService = socialGroupService;
+        this.locationHierarchyService = locationHierarchyService;
         this.fieldBuilder = fieldBuilder;
         this.fileResolver = fileResolver;
     }
@@ -60,14 +65,35 @@ public class SocialGroupResource {
 
         return sgs;
     }
+    
+    @RequestMapping(value = "location/{locationExtId}", method = RequestMethod.GET)
+    @ResponseBody
+    public SocialGroups getSocialGroupsAssociatedWithLocation(String locationExtId) {
+    	
+    	SocialGroups sgs = new SocialGroups();
+    	Location location = locationHierarchyService.findLocationById(locationExtId);
+    	
+    	if (location != null) {
+	        Set<SocialGroup> allSocialGroups = socialGroupService.getSocialGroupsAssociatedWithLocation(location);
+	        List<SocialGroup> copies = new ArrayList<SocialGroup>();
+	
+	        for (SocialGroup sg : allSocialGroups) {
+	            SocialGroup copy = ShallowCopier.copySocialGroup(sg);
+	            copies.add(copy);
+	        }
+	
+	        sgs.setSocialGroups(copies);
+    	}
+
+        return sgs;
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<? extends Serializable> insert(@RequestBody SocialGroup socialGroup) {
         ConstraintViolations cv = new ConstraintViolations();
 
         socialGroup.setCollectedBy(fieldBuilder.referenceField(socialGroup.getCollectedBy(), cv));
-        socialGroup.setGroupHead(fieldBuilder.referenceField(socialGroup.getGroupHead(), cv,
-                "Invalid Ext Id for Group Head"));
+        socialGroup.setGroupHead(fieldBuilder.referenceField(socialGroup.getGroupHead(), cv, "Invalid Ext Id for Group Head"));
 
         if (cv.hasViolations()) {
             return new ResponseEntity<WebServiceCallException>(new WebServiceCallException(cv), HttpStatus.BAD_REQUEST);
