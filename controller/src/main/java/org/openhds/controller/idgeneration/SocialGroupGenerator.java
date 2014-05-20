@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.openhds.controller.exception.ConstraintViolations;
+import org.openhds.controller.service.impl.SocialGroupServiceImpl;
 import org.openhds.domain.model.Location;
 import org.openhds.domain.model.SocialGroup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Brian
@@ -18,6 +21,9 @@ import org.openhds.domain.model.SocialGroup;
  */
 
 public class SocialGroupGenerator extends Generator<SocialGroup> {
+	
+	private static Logger log = LoggerFactory.getLogger(SocialGroupGenerator.class);
+	
 	private Location location;
 	
 	public void setLocation(Location location){
@@ -26,7 +32,7 @@ public class SocialGroupGenerator extends Generator<SocialGroup> {
 	
 	@Override
 	public String generateId(SocialGroup entityItem) throws ConstraintViolations  {
-StringBuilder sb = new StringBuilder();	
+		StringBuilder sb = new StringBuilder();	
 		
 		IdScheme scheme = getIdScheme();
 		HashMap<String, Integer> fields = scheme.getFields();
@@ -42,6 +48,7 @@ StringBuilder sb = new StringBuilder();
 			
 				if (key.equals(IdGeneratedFields.LOCATION_PREFIX.toString())) {
 					//String fname = individual.getFirstName();
+					
 					String extId = location.getExtId();
 					
 					if (extId.length() >= filter) {
@@ -63,6 +70,10 @@ StringBuilder sb = new StringBuilder();
 		}
 
 		extId = sb.toString();
+		log.info("extId=" + extId);
+		
+		sb.append("SOCIALGROUP");
+		
 		if (scheme.getIncrementBound() > 0) 
 			sb.append(buildNumberWithBound(entityItem, scheme));
 		else
