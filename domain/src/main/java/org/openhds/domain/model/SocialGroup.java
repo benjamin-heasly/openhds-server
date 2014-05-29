@@ -42,9 +42,9 @@ public class SocialGroup
     @Description(description = "Name of the social group.")
     private String groupName;
     @Searchable
-    @CheckEntityNotVoided
-    @CheckIndividualNotUnknown
-    @CheckHouseholdHeadAge(allowNull = true, message = "The social group head is younger than the minimum age required in order to be a household head.")
+    //@CheckEntityNotVoided
+    //@CheckIndividualNotUnknown
+    //@CheckHouseholdHeadAge(allowNull = true, message = "The social group head is younger than the minimum age required in order to be a household head.")
     @ManyToOne(cascade = {
         CascadeType.ALL
     })

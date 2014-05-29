@@ -73,7 +73,7 @@ angular.module('tabletuing.controllers', ['ui.bootstrap'])
 		   locationResource.getLocationsForLevel({locationLevel : $scope.selectedLevel.uuid})
 	   			.$promise
 	   			.then(function(result) {
-	   				$rootScope.locations = result.locations;
+	   				$rootScope.locations = result.data.locations;
 	   			});
 		   $rootScope.selectedLocation = null;
 	   }
@@ -94,11 +94,11 @@ angular.module('tabletuing.controllers', ['ui.bootstrap'])
 	   $scope.showCreateHouseholdButton = function() {
 		   return ($scope.selectedHierList.length >= $scope.hierarchyLevels.length && $rootScope.selectedLocation !== null);
 	   };
-	   $scope.showCreateHeadOfHouseholdButton = function() {
-		   return ($rootScope.selectedLocation !== null && $rootScope.selectedHousehold !== null && $rootScope.selectedHousehold.groupHead === null);
-	   };
+//	   $scope.showCreateHeadOfHouseholdButton = function() {
+//		   return ($rootScope.selectedLocation != null && $rootScope.selectedHousehold != null && $rootScope.selectedHousehold.groupHead == null);
+//	   };
 	   $scope.showCreateIndividualButton = function() {
-		   return ($rootScope.selectedLocation !== null && $rootScope.selectedHousehold !== null && $rootScope.selectedHousehold.groupHead !== null);
+		   return ($rootScope.selectedLocation != null && $rootScope.selectedHousehold != null); // && $rootScope.selectedHousehold.groupHead != null);
 	   };
 	   $scope.showCreateRelationshipButton = function() {
 		   return false;
@@ -120,23 +120,13 @@ angular.module('tabletuing.controllers', ['ui.bootstrap'])
 		   $scope.selectedLevel = selectedItem;
 		   $scope.parentExtId = selectedItem.extId;
 		   
-		  
 		   // load locations if last level selected
 		   if ($scope.selectedHierList.length >= $scope.hierarchyLevels.length) {
-			   
-			   //console.log("Loading locations for level" + angular.toJson($scope.selectedLevel));
-			   
 			   locationResource.getLocationsForLevel({locationLevel : $scope.selectedLevel.uuid})
 			   		.$promise
 			   		.then(function(result) {
-			   			$rootScope.locations = result.locations;
+			   			$rootScope.locations = result.data.locations;
 			   		 });
-			   
-//			   locationResource.query({locationLevel:'hierarchy3'})
-//		   		.$promise.then(function (result) {
-//					   console.log("Locations=" + result.locations);
-//				   }
-//				 );
 		   }
 	   }
 	   
@@ -144,28 +134,32 @@ angular.module('tabletuing.controllers', ['ui.bootstrap'])
 		   console.log("Create location for parentExtId=" + parentExtId);
 		   $location.search('parentExtId', parentExtId).path('/form/location');
 	   }
-//	   $scope.clearLocation = function() {
-//		   $rootScope.selectedLocation = null;
-//	   }
 	   $scope.createHousehold = function() {
 		   $location.path("/form/household");
+	   }
+	   $scope.createIndividual = function() {
+		   $locaion.path("/form/individual");
 	   }
 	   
 	   $scope.go = function ( path ) {
 		   $location.path( path );
 	    };
 	    
-	   var locationHierarchyResource = $resource(contextPath + '/api/rest/locationhierarchies/:path'); 
+	   var locationHierarchyResource = $resource(contextPath + '/api/rest/locationhierarchies/:path', {}, 
+			   { 
+		   		 getLocationLevels : {method: 'GET', isArray: false}, 
+		   		 getLevels : {method: 'GET', isArray: false}
+			   }
+	   ); 
 	   var init = function () {
-		   var fullHierarchy = locationHierarchyResource.get();
-		   fullHierarchy.$promise.then(function (result) {
-		       $scope.hierarchyItems = result.locationHierarchies;
+		   locationHierarchyResource.getLocationLevels().$promise.then(function (result) {
+		       $scope.hierarchyItems = result.data.locationHierarchies;
 		   });
 		   
-		   var hierarchyLevels = locationHierarchyResource.query({path:'levels'})
+		   var hierarchyLevels = locationHierarchyResource.getLevels({'path':"levels"})
 		   		.$promise.then(
 				   function (result) {
-					   $scope.hierarchyLevels = result;
+					   $scope.hierarchyLevels = result.data.locationLevels;
 				   }
 				 );
 		   
@@ -185,7 +179,7 @@ angular.module('tabletuing.controllers', ['ui.bootstrap'])
 
         var locationHierarchyResource = $resource(contextPath + '/api/rest/locationhierarchies/:extId');
 
-        $scope.open = function (title, items) {
+        $scope.openModal = function (title, items) {
           var modalInstance = $modal.open({
             templateUrl: 'partials/modalContent.html',
             controller: 'ModalInstanceCtrl',
@@ -207,16 +201,21 @@ angular.module('tabletuing.controllers', ['ui.bootstrap'])
         	
         	locationResource.save($scope.newLocation).$promise.then(
         		function(locationResource) {
-        			$rootScope.selectedLocation = locationResource;
+        			$rootScope.selectedLocation = locationResource.data.location;
         			$location.path("/home");
         		},
         		function(error) {
+        			var title, items;
         			if (error.status == '400') {
-        				$scope.open('Create Location validation failed', error.data.errors);
+        				title = error.data.resultMessage;
+        				if (error.data.resultCode == '2') {
+        					items = error.data.data.constraintViolations;
+        				}
         			} else {
-        				$scope.open('Error ' + error.status);
+        				title = 'Error ' + error.status;
         			}
         			
+        			$scope.openModal(title, items);
         		});
         };
         
@@ -233,7 +232,16 @@ angular.module('tabletuing.controllers', ['ui.bootstrap'])
        		}
        		// load parent
        		else if ($scope.parentLocationHierarchy === null || ($scope.parentLocationHierarchy.extId !== ($location.search()).parentExtId)) {
-       			$scope.parentLocationHierarchy = locationHierarchyResource.get({extId:parentExtId});
+       			locationHierarchyResource.get({extId:parentExtId})
+       				.$promise
+       				.then(
+       	        		function(locationHierarchyResource) {
+       	        			$scope.parentLocationHierarchy = locationHierarchyResource.data.location;
+       	        		},
+       	        		function(error) {
+       	        			title = 'Error ' + error.status;
+       	        			$scope.openModal(title, null);
+       	        		});
        		}
         	
         };
@@ -244,7 +252,7 @@ angular.module('tabletuing.controllers', ['ui.bootstrap'])
 	  var householdResource = $resource(contextPath + '/api/rest/socialgroups/:extId');
       
 	  // TODO move to module
-      $scope.open = function (title, items) {
+      $scope.openModal = function (title, items) {
           var modalInstance = $modal.open({
             templateUrl: 'partials/modalContent.html',
             controller: 'ModalInstanceCtrl',
@@ -261,22 +269,25 @@ angular.module('tabletuing.controllers', ['ui.bootstrap'])
         };
 	  
 	  $scope.createNewHousehold = function() {
-    	  
-		$scope.newHousehold.groupHead = {};
-		$scope.newHousehold.groupHead.extId = "MBI000001001";
       	householdResource.save($scope.newHousehold).$promise.then(
       		function(householdResource) {
       			$rootScope.selectedHousehold = householdResource;
       			$location.path("/home");
       		},
-      		function(error) {
-      			if (error.status == '400') {
-      				$scope.open('Create Household validation failed', error.data.errors);
-      			} else {
-      				$scope.open('Error ' + error.status);
-      			}
-      			
-      		});
+      		// duplicated from create location
+    		function(error) {
+    			var title, items;
+    			if (error.status == '400') {
+    				title = error.data.resultMessage;
+    				if (error.data.resultCode == '2') {
+    					items = error.data.data.constraintViolations;
+    				}
+    			} else {
+    				title = 'Error ' + error.status;
+    			}
+    			
+    			$scope.openModal(title, items);
+    		});
       };
       
 	   $scope.cancelNewHousehold = function() {

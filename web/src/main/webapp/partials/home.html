@@ -73,11 +73,13 @@
 				<button type="button" class="btn btn-default btn-custom" ng-show="showCreateHouseholdButton()" ng-click="createHousehold()">Create Household</button>
 			</div>
 			<div class="voffset2">
-				<button type="button" class="btn btn-default btn-custom" ng-show="showCreateHeadOfHouseholdButton()">Create Head of Household</button>
+				<button type="button" class="btn btn-default btn-custom" ng-show="showCreateIndividualButton()" ng-click="createIndividual()">
+					Create {{selectedHousehold.groupHead && 'Individual' || 'Head of Household'}} 
+				</button>
 			</div>
-			<div class="voffset2">
-				<button type="button" class="btn btn-default btn-custom" ng-show="showCreateIndividualButton()">Create Individual</button>
-			</div>
+<!-- 			<div class="voffset2"> -->
+<!-- 				<button type="button" class="btn btn-default btn-custom" ng-show="showCreateIndividualButton()" ng-click="createIndividual()">Create Individual</button> -->
+<!-- 			</div> -->
 <!-- 			<div class="voffset2"> -->
 <!-- 				<button type="button" class="btn btn-default btn-custom" ng-disabled="true">Membership</button> -->
 <!-- 			</div> -->

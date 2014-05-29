@@ -18,6 +18,8 @@ import org.openhds.domain.annotations.Description;
 import org.openhds.domain.constraint.CheckFieldNotBlank;
 import org.openhds.domain.constraint.ExtensionStringConstraint;
 import org.openhds.domain.constraint.Searchable;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 
 /**
@@ -28,6 +30,7 @@ import org.openhds.domain.constraint.Searchable;
 @Entity
 @Table(name = "location")
 @XmlRootElement
+@JsonInclude(Include.NON_NULL)
 public class Location
     extends AuditableCollectedEntity
     implements Serializable

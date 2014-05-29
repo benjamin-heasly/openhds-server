@@ -31,13 +31,28 @@
 <!--         <property name="marshaller" ref="jaxbMarshaller" /> -->
 <!--         <property name="unmarshaller" ref="jaxbMarshaller" /> -->
 <!--     </bean> -->
-    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    <!--<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 	    <property name="messageConverters">
 	        <list>
 	            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
 	        </list>
 	    </property>
-	</bean>
+	</bean>-->
+        <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <array>
+                <ref bean="marshallingXmlHttpMessageConverter" />
+                <ref bean="marshallingJsonHttpMessageConverter" />
+            </array>
+        </property>
+    </bean>
+
+    <bean id="marshallingXmlHttpMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">        
+    	<property name="marshaller" ref="jaxbMarshaller" />
+        <property name="unmarshaller" ref="jaxbMarshaller" /> 
+    </bean>
+
+    <bean id="marshallingJsonHttpMessageConverter" class ="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
     
     <mvc:annotation-driven/>
 </beans>

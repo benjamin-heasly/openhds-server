@@ -42,12 +42,14 @@ public class SocialGroupServiceImpl implements SocialGroupService {
 	}
 	
 	public SocialGroup evaluateSocialGroup(SocialGroup entityItem) throws ConstraintViolations {
-		if (entityItem.getGroupHead().getExtId() == null) 
+		if (entityItem.getGroupHead() != null && entityItem.getGroupHead().getExtId() == null) 
 			entityItem.setGroupHead(null);
 		
-	    if (individualService.getLatestEvent(entityItem.getGroupHead()).equals("Death"))
-	    	throw new ConstraintViolations("A Social Group cannot be created for an Individual who has a Death event.");	
-	        	
+		if (entityItem.getGroupHead() != null) {
+			if (individualService.getLatestEvent(entityItem.getGroupHead()).equals("Death")) {
+				throw new ConstraintViolations("A Social Group cannot be created for an Individual who has a Death event.");	
+			}      	
+		}
 		if (findSocialGroupById(entityItem.getExtId()) != null)
 			throw new ConstraintViolations("The Id specified already exists");	
 		

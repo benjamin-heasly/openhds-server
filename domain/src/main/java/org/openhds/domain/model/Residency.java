@@ -16,6 +16,9 @@ import org.openhds.domain.constraint.CheckFieldNotBlank;
 import org.openhds.domain.constraint.GenericStartEndDateConstraint;
 import org.openhds.domain.constraint.Searchable;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 @Description(description="A Residency represents a home within the study area. " +
 		"It contains information about the Individual who lives at the Residency " +
 		"which is tied to a particular Location. It also contains information about " +
@@ -24,6 +27,7 @@ import org.openhds.domain.constraint.Searchable;
 @CheckEndDateNotBeforeStartDate(allowNull=true)
 @Table(name="residency")
 @XmlRootElement
+@JsonInclude(Include.NON_NULL)
 public class Residency extends AuditableCollectedEntity implements GenericStartEndDateConstraint, Serializable {
 	private static final long serialVersionUID = -4666666231598767965L;
     

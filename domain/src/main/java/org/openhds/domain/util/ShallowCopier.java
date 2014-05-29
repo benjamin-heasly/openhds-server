@@ -118,10 +118,11 @@ public class ShallowCopier {
     public static SocialGroup copySocialGroup(SocialGroup original) {
         SocialGroup copy = new SocialGroup();
         copy.setExtId(original.getExtId());
-
-        Individual groupHead = new Individual();
-        groupHead.setExtId(original.getGroupHead().getExtId());
-        copy.setGroupHead(groupHead);
+        if (original.getGroupHead() != null) {
+	        Individual groupHead = new Individual();
+	        groupHead.setExtId(original.getGroupHead().getExtId());
+	        copy.setGroupHead(groupHead);
+        }
         copy.setGroupName(original.getGroupName());
         return copy;
     }

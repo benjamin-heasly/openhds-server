@@ -93,7 +93,8 @@ public class SocialGroupResource {
         ConstraintViolations cv = new ConstraintViolations();
 
         socialGroup.setCollectedBy(fieldBuilder.referenceField(socialGroup.getCollectedBy(), cv));
-        socialGroup.setGroupHead(fieldBuilder.referenceField(socialGroup.getGroupHead(), cv, "Invalid Ext Id for Group Head"));
+        //socialGroup.setGroupHead(fieldBuilder.referenceField(socialGroup.getGroupHead(), cv,
+        //       "Invalid Ext Id for Group Head"));
 
         if (cv.hasViolations()) {
             return new ResponseEntity<WebServiceCallException>(new WebServiceCallException(cv), HttpStatus.BAD_REQUEST);

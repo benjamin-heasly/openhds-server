@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.openhds.controller.exception.ConstraintViolations;
-import org.openhds.controller.service.impl.SocialGroupServiceImpl;
 import org.openhds.domain.model.Location;
 import org.openhds.domain.model.SocialGroup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Brian
@@ -20,10 +20,9 @@ import org.slf4j.LoggerFactory;
  * the id. 
  */
 
+@Component("socialGroupIdGenerator")
 public class SocialGroupGenerator extends Generator<SocialGroup> {
-	
-	private static Logger log = LoggerFactory.getLogger(SocialGroupGenerator.class);
-	
+
 	private Location location;
 	
 	public void setLocation(Location location){
@@ -70,9 +69,6 @@ public class SocialGroupGenerator extends Generator<SocialGroup> {
 		}
 
 		extId = sb.toString();
-		log.info("extId=" + extId);
-		
-		sb.append("SOCIALGROUP");
 		
 		if (scheme.getIncrementBound() > 0) 
 			sb.append(buildNumberWithBound(entityItem, scheme));
@@ -128,5 +124,12 @@ public class SocialGroupGenerator extends Generator<SocialGroup> {
 	public IdScheme getIdScheme() {
 		int index = Collections.binarySearch(resource.getIdScheme(), new IdScheme("SocialGroup"));
 		return resource.getIdScheme().get(index);
+	}
+	
+	@Override
+	@Autowired
+	@Value("${openhds.sgIdUseGenerator}")
+	public void setGenerated(boolean generated) {
+		this.generated = generated;
 	}
 }
