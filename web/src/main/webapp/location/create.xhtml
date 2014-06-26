@@ -68,8 +68,13 @@
 	                        <h:outputText />
 	                        <h:inputText id="altitude" value="#{locationCrud.item.altitude}" converter="#{defaultConverter}" />
 	                        <h:message for="altitude" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
-	                       
-	                        <h:outputText value="#{msg.fieldWorkerId}:"/>
+
+                            <h:outputText value="#{msg.locationCommunityName}:"/>
+                            <h:outputText />
+                            <h:inputText id="communityName" value="#{locationCrud.item.communityName}" converter="#{defaultConverter}" />
+                            <h:message for="communityName" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>
+
+                            <h:outputText value="#{msg.fieldWorkerId}:"/>
 	                        <h:outputText />
 	                        <h:inputText styleClass="collectedBy" autocomplete="off" id="collectedBy" value="#{locationCrud.item.collectedBy}" converter="#{fieldWorkerExtIdConverter}"/>
 	                        <h:message for="collectedBy" errorClass="error" errorStyle="color: red" infoStyle="color: green"/>      
