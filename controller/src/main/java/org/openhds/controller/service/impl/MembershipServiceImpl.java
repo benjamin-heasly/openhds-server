@@ -35,7 +35,7 @@ public class MembershipServiceImpl implements MembershipService {
     }
 
     public Membership evaluateMembership(Membership entityItem) throws ConstraintViolations {
-        if (!checkDuplicateMembership(entityItem.getIndividual(), entityItem.getSocialGroup()))
+        if (checkDuplicateMembership(entityItem.getIndividual(), entityItem.getSocialGroup()))
             throw new ConstraintViolations(
                     "A Membership for the specified Social Group already exists.");
         if (individualService.getLatestEvent(entityItem.getIndividual()).equals("Death"))
@@ -71,9 +71,9 @@ public class MembershipServiceImpl implements MembershipService {
         while (itr.hasNext()) {
             Membership item = itr.next();
             if (item.getSocialGroup().getExtId().equals(group.getExtId()) && !item.isDeleted())
-                return false;
+                return true;
         }
-        return true;
+        return false;
     }
 
     /**

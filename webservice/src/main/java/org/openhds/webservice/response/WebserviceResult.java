@@ -1,15 +1,21 @@
 package org.openhds.webservice.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 @JsonInclude(Include.NON_NULL)
+@XmlRootElement
 public class WebserviceResult implements Serializable {
-	
+
+    public final static int SUCCESS_STATUS = 1;
+    public final static int CLIENT_ERROR_STATUS = 2;
+    public final static int SERVER_ERROR_STATUS = 3;
+
 	private String status = "";
 	private String resultMessage = "";
 	private int resultCode;
