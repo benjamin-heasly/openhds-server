@@ -1,7 +1,5 @@
 package org.openhds.domain.model.bioko;
 
-import org.openhds.domain.annotations.Description;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;

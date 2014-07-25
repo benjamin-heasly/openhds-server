@@ -25,7 +25,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.server.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.server.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.server.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.server.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.server.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.server.result.MockMvcResultMatchers.xpath;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -65,24 +67,24 @@ public class MembershipResourceTest {
                 .accept(MediaType.APPLICATION_XML))
                 .andExpect(status().isOk())
                 .andExpect(content().mimeType(MediaType.APPLICATION_XML))
-                .andExpect(xpath("/memberships").nodeCount(1))
-                .andExpect(xpath("/memberships/membership/bIsToA").string("1"))
-                .andExpect(xpath("/memberships/membership/individual/extId").string("individual1"))
-                .andExpect(xpath("/memberships/membership/socialGroup/extId").string("sg123456789"));
+                .andExpect(xpath("/webserviceResult/data/entry/value/membership").nodeCount(1))
+                .andExpect(xpath("/webserviceResult/data/entry/value/membership/bIsToA").string("1"))
+                .andExpect(xpath("/webserviceResult/data/entry/value/membership/individual/extId").string("individual1"))
+                .andExpect(xpath("/webserviceResult/data/entry/value/membership/socialGroup/extId").string("sg123456789"));
     }
 
     @Test
     public void testGetAllMembershipsForIndividualXml() throws Exception {
         String individualExtId = "individual1";
 
-        mockMvc.perform(get("/memberships/{extId}", individualExtId).session(session)
+        mockMvc.perform(get("/memberships/byIndividual/{extId}", individualExtId).session(session)
                 .accept(MediaType.APPLICATION_XML))
                 .andExpect(status().isOk())
                 .andExpect(content().mimeType(MediaType.APPLICATION_XML))
-                .andExpect(xpath("/memberships").nodeCount(1))
-                .andExpect(xpath("/memberships/membership/bIsToA").string("1"))
-                .andExpect(xpath("/memberships/membership/individual/extId").string("individual1"))
-                .andExpect(xpath("/memberships/membership/socialGroup/extId").string("sg123456789"));
+                .andExpect(xpath("/webserviceResult/data/entry/value/membership").nodeCount(1))
+                .andExpect(xpath("/webserviceResult/data/entry/value/membership/bIsToA").string("1"))
+                .andExpect(xpath("/webserviceResult/data/entry/value/membership/individual/extId").string("individual1"))
+                .andExpect(xpath("/webserviceResult/data/entry/value/membership/socialGroup/extId").string("sg123456789"));
     }
 
     @Test
@@ -95,7 +97,7 @@ public class MembershipResourceTest {
     }
 
     @Test
-    public void testPostLocationXml() throws Exception {
+    public void testPostMembershipXml() throws Exception {
         final String LOCATION_POST_XML =  "<membership>"
                 + "<collectedBy>"
                 + "<extId>UNK</extId>"
@@ -115,9 +117,10 @@ public class MembershipResourceTest {
                 .body(LOCATION_POST_XML.getBytes()))
                 .andExpect(status().isCreated())
                 .andExpect(content().mimeType(MediaType.APPLICATION_XML))
-                .andExpect(xpath("/membership/bIsToA").string("3"))
-                .andExpect(xpath("/membership/individual/extId").string("individual2"))
-                .andExpect(xpath("/membership/socialGroup/extId").string("sg234567890"));
+                .andExpect(xpath("/webserviceResult/data/entry/value").nodeCount(1))
+                .andExpect(xpath("/webserviceResult/data/entry/value/bIsToA").string("3"))
+                .andExpect(xpath("/webserviceResult/data/entry/value/individual/extId").string("individual2"))
+                .andExpect(xpath("/webserviceResult/data/entry/value/socialGroup/extId").string("sg234567890"));
     }
 
     @Test
@@ -139,7 +142,9 @@ public class MembershipResourceTest {
                 .accept(MediaType.APPLICATION_XML)
                 .contentType(MediaType.APPLICATION_XML)
                 .body(LOCATION_POST_XML.getBytes()))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().mimeType(MediaType.APPLICATION_XML))
+                .andExpect(xpath("/webserviceResult/data/entry/value").exists());
     }
 
     private MockHttpSession getMockHttpSession(String username, String password) throws Exception {

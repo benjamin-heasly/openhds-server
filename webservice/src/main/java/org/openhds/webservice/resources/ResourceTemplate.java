@@ -1,6 +1,7 @@
 package org.openhds.webservice.resources;
 
 import org.openhds.controller.exception.ConstraintViolations;
+import org.openhds.domain.model.wrappers.Wrapper;
 import org.openhds.webservice.CacheResponseWriter;
 import org.openhds.webservice.response.WebserviceResult;
 import org.slf4j.Logger;
@@ -28,7 +29,7 @@ import static org.openhds.webservice.response.WebserviceResultHelper.persistedRe
 import static org.openhds.webservice.response.WebserviceResultHelper.serverErrorResponse;
 
 @Controller
-public abstract class ResourceTemplate <T extends Serializable, U extends Serializable> {
+public abstract class ResourceTemplate <T extends Serializable, U extends Wrapper> {
     private static final Logger logger = LoggerFactory.getLogger(ResourceTemplate.class);
 
     protected String entityName = "entity";
@@ -39,6 +40,7 @@ public abstract class ResourceTemplate <T extends Serializable, U extends Serial
     protected abstract boolean create(T entity) throws Exception;
     protected abstract boolean createOrUpdate(T entity) throws Exception;
     protected abstract boolean deleteById(String id);
+    protected abstract T normalize(T entity);
 
     @RequestMapping(value = "/{extId}",
             method = RequestMethod.GET,
@@ -57,9 +59,9 @@ public abstract class ResourceTemplate <T extends Serializable, U extends Serial
     public ResponseEntity<WebserviceResult> getAll() {
         U allEntities = findAll();
         if (null == allEntities) {
-            return notFoundResponse("No " + entityName + "s found.");
+            return notFoundResponse("No " + entityName + "(s) found.");
         }
-        return foundResponse(entityName, allEntities, entityName + "s found");
+        return foundResponse(entityName, allEntities, "found " + allEntities.size() + " " + entityName + "(s)");
     }
 
     @RequestMapping(value = "/cached",
@@ -80,9 +82,9 @@ public abstract class ResourceTemplate <T extends Serializable, U extends Serial
     public ResponseEntity<WebserviceResult> insert(@RequestBody T entity) throws Exception {
         boolean success = create(entity);
         if (success) {
-            return persistedResponse(entityName, entity, entityName + " created");
+            return persistedResponse(entityName, normalize(entity), entityName + " created");
         } else {
-            return notPersistedResponse(entityName, entity, "Could not create " + ".");
+            return notPersistedResponse(entityName, entity, "Could not create " + entityName + ".");
         }
     }
 
@@ -92,9 +94,9 @@ public abstract class ResourceTemplate <T extends Serializable, U extends Serial
     public ResponseEntity<WebserviceResult> addOrUpdate(@RequestBody T entity) throws Exception {
         boolean success = createOrUpdate(entity);
         if (success) {
-            return persistedResponse(entityName, entity, entityName + " created");
+            return persistedResponse(entityName, normalize(entity), entityName + " created");
         } else {
-            return notPersistedResponse(entityName, entity, "Could not update " + ".");
+            return notPersistedResponse(entityName, entity, "Could not update " + entityName + ".");
         }
     }
 
@@ -110,14 +112,14 @@ public abstract class ResourceTemplate <T extends Serializable, U extends Serial
         }
     }
 
-    @ExceptionHandler(ConstraintViolations.class)
-    ResponseEntity<WebserviceResult> handleConstraintViolations(ConstraintViolations constraintViolations) {
-        return constraintViolationResponse(constraintViolations,
-                "There are " + constraintViolations.getViolations().size() + " constraint violations.");
-    }
-
     @ExceptionHandler(Exception.class)
-    ResponseEntity<WebserviceResult> handleServerError(Exception e) {
+    public ResponseEntity<WebserviceResult> handleServerError(Exception e) {
         return serverErrorResponse(e);
     }
+
+    @ExceptionHandler(ConstraintViolations.class)
+    public ResponseEntity<WebserviceResult> handleConstraintViolations(ConstraintViolations cv) {
+        return constraintViolationResponse(cv, "There are " + cv.getViolations().size() + " constraint violations.");
+    }
+
 }

@@ -71,7 +71,7 @@ public class MembershipResource extends ResourceTemplate<Membership, Memberships
             copies.add(copy);
         }
         Memberships allMemberships = new Memberships();
-        allMemberships.setMemberships(copies);
+        allMemberships.setEntities(copies);
         return allMemberships;
     }
 
@@ -121,6 +121,12 @@ public class MembershipResource extends ResourceTemplate<Membership, Memberships
         return false;
     }
 
+    @Override
+    protected Membership normalize(Membership membership) {
+        return ShallowCopier.shallowCopyMembership(membership);
+    }
+
+
     @RequestMapping(value = "byIndividual/{extId}", method = RequestMethod.GET, produces = "application/xml")
     @ResponseBody
     public ResponseEntity<WebserviceResult> getAllMembershipsByIndividualId(@PathVariable String extId) {
@@ -138,8 +144,8 @@ public class MembershipResource extends ResourceTemplate<Membership, Memberships
         }
 
         Memberships allMemberships = new Memberships();
-        allMemberships.setMemberships(copies);
+        allMemberships.setEntities(copies);
         return foundResponse(entityName, allMemberships,
-                "found " + memberships.size() + " memberships for individual " + extId);
+                "found " + allMemberships.size() + " memberships for individual " + extId);
     }
 }
