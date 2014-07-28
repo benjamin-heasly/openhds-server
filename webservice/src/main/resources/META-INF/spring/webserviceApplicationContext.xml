@@ -10,6 +10,7 @@
 
     <context:annotation-config />
     <context:component-scan base-package="org.openhds.webservice" />
+    <context:component-scan base-package="org.openhds.controller.service" />
 
     <bean id="whitelistInterceptor" class="org.openhds.webservice.WhitelistAuthenticationInteceptor">
         <constructor-arg ref="whitelistService" />

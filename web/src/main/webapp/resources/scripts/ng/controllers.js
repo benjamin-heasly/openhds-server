@@ -138,7 +138,7 @@ angular.module('tabletuing.controllers', ['ui.bootstrap'])
 		   $location.path("/form/household");
 	   }
 	   $scope.createIndividual = function() {
-		   $locaion.path("/form/individual");
+		   $location.path("/form/individual");
 	   }
 	   
 	   $scope.go = function ( path ) {
