@@ -17,6 +17,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.openhds.domain.annotations.Description;
 import org.openhds.domain.constraint.CheckInteger;
 import org.openhds.domain.constraint.Searchable;
@@ -30,6 +32,7 @@ import org.openhds.domain.constraint.Searchable;
 @Entity
 @Table(name = "visit")
 @XmlRootElement
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Visit
     extends AuditableCollectedEntity
     implements Serializable

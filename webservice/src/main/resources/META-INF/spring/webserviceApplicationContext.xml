@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
        http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.2.xsd
@@ -20,18 +20,18 @@
         <bean class="org.openhds.webservice.WhitelistAuthenticationInteceptor" />
     </mvc:interceptors>
 
-<!--     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"> -->
-<!--         <property name="messageConverters"> -->
-<!--             <array> -->
-<!--                 <ref bean="marshallingHttpMessageConverter" /> -->
-<!--             </array> -->
-<!--         </property> -->
-<!--     </bean> -->
+    <!--     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"> -->
+    <!--         <property name="messageConverters"> -->
+    <!--             <array> -->
+    <!--                 <ref bean="marshallingHttpMessageConverter" /> -->
+    <!--             </array> -->
+    <!--         </property> -->
+    <!--     </bean> -->
 
-<!--     <bean id="marshallingHttpMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter"> -->
-<!--         <property name="marshaller" ref="jaxbMarshaller" /> -->
-<!--         <property name="unmarshaller" ref="jaxbMarshaller" /> -->
-<!--     </bean> -->
+    <!--     <bean id="marshallingHttpMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter"> -->
+    <!--         <property name="marshaller" ref="jaxbMarshaller" /> -->
+    <!--         <property name="unmarshaller" ref="jaxbMarshaller" /> -->
+    <!--     </bean> -->
     <!--<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 	    <property name="messageConverters">
 	        <list>
@@ -39,7 +39,7 @@
 	        </list>
 	    </property>
 	</bean>-->
-        <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
             <array>
                 <ref bean="marshallingXmlHttpMessageConverter" />
@@ -48,12 +48,12 @@
         </property>
     </bean>
 
-    <bean id="marshallingXmlHttpMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">        
-    	<property name="marshaller" ref="jaxbMarshaller" />
-        <property name="unmarshaller" ref="jaxbMarshaller" /> 
+    <bean id="marshallingXmlHttpMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+        <property name="marshaller" ref="jaxbMarshaller" />
+        <property name="unmarshaller" ref="jaxbMarshaller" />
     </bean>
 
     <bean id="marshallingJsonHttpMessageConverter" class ="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
-    
+
     <mvc:annotation-driven/>
 </beans>

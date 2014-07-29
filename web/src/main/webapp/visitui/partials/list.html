@@ -1,0 +1,124 @@
+
+	<form name="locationForm" class="form-horizontal" novalidate>
+		<fieldset>
+
+			<!-- Form Name -->
+			<legend>Create Location</legend>
+			
+			<div class="form-group">			
+				<label class="col-md-4 control-label">{{parentLocationHierarchy.level.name}}</label>
+				<div class="col-md-4 con">
+				 	<input type="text" class="form-control input-md" value="{{parentLocationHierarchy.name}}" ng-disabled="true"/>
+				</div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group" ng-class="{'has-error' : locationForm.locationName.$invalid && !locationForm.locationName.$pristine}">
+				<label class="col-md-4 control-label" for="locationName">Location
+					Name*</label>
+				<div class="col-md-4">
+					<input id="locationName" name="locationName" type="text"
+						placeholder="Location Name" class="form-control input-md"
+						ng-model="newLocation.locationName" ng-required="true"> 
+						<span class="help-block" ng-show="locationForm.locationName.$invalid && !locationForm.locationName.$pristine">
+							<small ng-if="locationForm.locationName.$error.required">Required</small>
+						</span>
+				</div>
+			</div>
+	
+			<div class="form-group" ng-class="{'has-error' : locationForm.locationType.$invalid && !locationForm.locationType.$pristine}">
+				<label class="col-md-4 control-label" for="locationType">Location
+					Type*</label>
+				<div class="col-md-4">
+					<select id="locationType" ng-model="newLocation.locationType"
+						ng-required="true" class="form-control">
+						<!--  ng-options="l.name for l in locationTypes">-->
+						<option value="RUR">Rural</option>
+						<option value="URB">Urban</option>
+					</select> 
+					<span class="help-block" ng-show="locationForm.locationType.$invalid && !locationForm.locationType.$pristine">
+						<small ng-if="locationForm.locationType.$error.required">Required</small>
+					</span>
+				</div>
+			</div>
+			
+			<div class="form-group" ng-class="{'has-error' : locationForm.latitude.$invalid && !locationForm.latitude.$pristine}">
+				<label  class="col-md-4 control-label" for="latitude">Latitude*</label>
+				<div class="col-md-4">
+					<input type="text" id="latitude" name="latitude" placeholder="Latitude" class="form-control input-md" ng-model="newLocation.latitude" ng-required="true" ng-pattern="/^(\+|-)?(\d\.\d{1,6}|[1-8]\d\.\d{1,6}|90\.0{1,6})$/"/>
+					<span class="help-block" ng-show="locationForm.latitude.$invalid && !locationForm.latitude.$pristine">
+						<small ng-if="locationForm.latitude.$error.required">Required</small>
+						<small ng-if="locationForm.latitude.$error.pattern">Requires decimal degree format (DDD) to 6 decimal places</small>
+					</span>
+				</div>
+			</div>
+			<div class="form-group" ng-class="{'has-error' : locationForm.longitude.$invalid && !locationForm.longitude.$pristine}">
+				<label  class="col-md-4 control-label" for="longitude">Longitude*</label>
+				<div class="col-md-4">
+					<input type="text" id="longitude" name="longitude" placeholder="Longitude" class="form-control input-md" ng-model="newLocation.longitude" ng-required="true" ng-pattern="/^(\+|-)?(\d\.\d{1,6}|[1-9]\d\.\d{1,6}|1[1-7]\d\.\d{1,6}|180\.0{1,6})$/"/>
+					<span class="help-block" ng-show="locationForm.longitude.$invalid && !locationForm.longitude.$pristine">
+						<small ng-if="locationForm.longitude.$error.required">Required</small>
+						<small ng-if="locationForm.longitude.$error.pattern">Requires decimal degree format (DDD) to 6 decimal places</small>
+					</span>
+				</div>
+			</div>
+			<div class="form-group" ng-class="{'has-error' : locationForm.accuracy.$invalid && !locationForm.accuracy.$pristine}">
+				<label  class="col-md-4 control-label" for="accuracy">Accuracy*</label>
+				<div class="col-md-4">
+					<input type="text" id="accuracy" name="accuracy" placeholder="Accuracy" class="form-control input-md" ng-model="newLocation.accuracy" ng-required="true"/>
+					<span class="help-block" ng-show="locationForm.accuracy.$invalid && !locationForm.accuracy.$pristine">
+						<small ng-if="locationForm.accuracy.$error.required">Required</small>
+					</span>
+				</div>
+			</div>
+			<div class="form-group" ng-class="{'has-error' : locationForm.altitude.$invalid && !locationForm.accuracy.$pristine}">
+				<label  class="col-md-4 control-label" for="altitude">Altitude*</label>
+				<div class="col-md-4">
+					<input type="text" id="altitude" name="altitude" placeholder="Altitude" class="form-control input-md" ng-model="newLocation.altitude" ng-required="true"/>
+					<span class="alert alert-error" ng-show="locationForm.altitude.$dirty && locationForm.altitude.$invalid">
+						<small ng-if="locationForm.altitude.$error.required">Required</small>
+					</span>
+				</div>
+			</div>
+			<div class="form-group" ng-class="{'has-error' : locationForm.collectedBy.$invalid && !locationForm.collectedBy.$pristine}">
+				<label class="col-md-4 control-label" for="fieldWorkerId">Field Worker ID*</label>
+				<div class="col-md-4">
+					<input type="text" id="fieldWorkerId" name="fieldWorkerId" placeholder="Field Worker ID" class="form-control input-md" ng-model="newLocation.collectedBy.extId" ng-required="true"/>
+					<span class="alert alert-error" ng-show="locationForm.collectedBy.$dirty && locationForm.collectedBy.$invalid">
+						<small ng-if="locationForm.collectedBy.extId.$error.required">Required</small>
+					</span>
+				</div>
+			</div>
+
+			<!-- Button (Double) -->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="createButton"></label>
+				<div class="col-md-8">
+					<button id="createButton" name="createButton" class="btn btn-default btn-inverse" ng-click="createLocation()" ng-disabled="!locationForm.$valid">Create</button>
+					<button id="cancelButton" name="cancelButton" class="btn btn-default btn-inverse" ng-click="cancelLocation()">Cancel</button>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
+
+<!-- 		<div> -->
+<!-- 			<button class="btn btn-inverse" ng-click="createLocation()" ng-disabled="!locationForm.$valid">Create</button> -->
+<!-- 			<button class="btn btn-inverse" ng-click="reset()">Reset</button> -->
+<!-- 			<button class="btn btn-inverse" ng-click="resetAll()">Reset All</button> -->
+<!-- 		</div> -->
+
+<!-- <br/> -->
+<!-- <div> -->
+<!-- 	<button type="button" class="btn btn-default" ng-click="getLocation('SUB000001')">Get location</button> -->
+<!-- </div> -->
+<!-- <div class="voffset2"> -->
+<!-- 	<button type="button" class="btn btn-default" ng-click="getLocations()">Get locations</button> -->
+<!-- </div> -->
+<!-- <div>{{selectedLocation}}</div> -->
+<!-- <div class="voffset2"></div> -->
+<!--  <button ng-click="open()">Click Me</button> -->
+<!-- <pre>newLocation = {{newLocation | json}}</pre> -->
+<!-- <pre>locations = {{locations | json}}</pre> -->
+<!-- <pre>master = {{master | json}}</pre> -->
+

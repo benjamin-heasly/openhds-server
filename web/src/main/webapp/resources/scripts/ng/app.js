@@ -31,5 +31,3 @@ config(['$routeProvider', function($routeProvider) {
   .when('/home', {templateUrl: 'partials/home.html'})
   .otherwise({redirectTo: '/home'});
 }]);
-
-
