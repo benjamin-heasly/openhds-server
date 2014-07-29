@@ -44,7 +44,22 @@
     </div>
 
     <div class="container" ng-controller="VisitController" ng-view>
-    {{visitMess}}
+        existing: {{existingVisits}}
     </div>
+    <hr>
+    <div class="container" ng-controller="VisitController" ng-view>
+        new: {{newVisit}}
+    </div>
+    <hr>
+    <div class="container" ng-controller="VisitController" ng-view>
+        status: {{status}}
+        <br>
+        response: {{response}}
+    </div>
+    <hr>
+    <div class="container" ng-controller="VisitController" ng-view>
+        updated: {{updatedVisits}}
+    </div>
+
 </body>
 </html>

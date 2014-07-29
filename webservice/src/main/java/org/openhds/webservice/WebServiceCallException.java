@@ -6,9 +6,11 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.openhds.controller.exception.ConstraintViolations;
 
 @XmlRootElement(name="failure")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class WebServiceCallException implements Serializable {
 	
     private static final long serialVersionUID = -5429038867393148120L;
