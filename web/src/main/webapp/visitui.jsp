@@ -43,23 +43,7 @@
       </div>
     </div>
 
-    <div class="container" ng-controller="VisitController" ng-view>
-        existing: {{existingVisits}}
-    </div>
-    <hr>
-    <div class="container" ng-controller="VisitController" ng-view>
-        new: {{newVisit}}
-    </div>
-    <hr>
-    <div class="container" ng-controller="VisitController" ng-view>
-        status: {{status}}
-        <br>
-        response: {{response}}
-    </div>
-    <hr>
-    <div class="container" ng-controller="VisitController" ng-view>
-        updated: {{updatedVisits}}
-    </div>
+    <div ng-view />
 
 </body>
 </html>

@@ -1,29 +1,61 @@
 'use strict';
 
 
-var app = angular.module('visitui', ['ngResource']);
+var app = angular.module('visitui', ['ngResource', 'ngRoute']);
 
-app.controller('VisitController', ['$scope', '$resource', function($scope, $resource) {
+app.controller('VisitController', ['$scope', '$resource', '$location', function($scope, $resource, $location) {
 
   var visitResource = $resource('api/rest/visits');
+  $scope.allVisits = visitResource.get();
 
-  $scope.existingVisits = visitResource.get();
+  $scope.status = "Welcome.";
 
-  $scope.newVisit = {
-    "deleted":false,
-    "collectedBy":{"deleted":false,"extId":"FWEK1D"},
-    "extId":"VMBI2424",
-    "visitLocation":{"deleted":false,"extId":"MBI000001"},
-    "visitDate":1330405200001,
-    "roundNumber":1,
-    "extensions":[]};
+  var date = new Date();
+  $scope.newForm = {visitDate:date.getTime(), roundNumber:1};
 
-  $scope.status="none";
+  $scope.viewList = function() {
+    $scope.allVisits = visitResource.get();
+    $location.path("/list");
+  };
 
-  visitResource.save({}, $scope.newVisit,
-    function (data) {$scope.status="yes"; $scope.response=data;},
-    function (data) {$scope.status="no"; $scope.response=data;});
+  $scope.newVisit = function() {
+    $location.path("/new");
+  };
 
-  $scope.updatedVisits = visitResource.get();
+  $scope.handleSuccess = function (response) {
+    $scope.status="Saved.";
+    $location.path("/list");
+    $scope.allVisits = visitResource.get();
+  }
+
+  $scope.handleError = function (response) {
+    if (response.data instanceof Object) {
+      $scope.status = "Error: " + response.data.errors.toString();
+    } else {
+      $scope.status = "Error.";
+    }
+  }
+
+  $scope.saveVisit = function() {
+    $scope.status="Waiting for response.";
+    visitResource.save({}, $scope.newForm, $scope.handleSuccess, $scope.handleError);
+  };
 
 }]);
+
+app.config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider.
+      when('/list', {
+        templateUrl: 'visitui/partials/list.html',
+        controller: 'VisitController'
+      }).
+      when('/new', {
+        templateUrl: 'visitui/partials/new.html',
+        controller: 'VisitController'
+      }).
+      otherwise({
+        redirectTo: '/list'
+      });
+  }]);
+

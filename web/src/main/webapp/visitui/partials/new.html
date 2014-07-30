@@ -1,0 +1,86 @@
+<div class="container-fluid">
+
+    <h3>New Visit</h3>
+    <br>
+    <p>{{status}}</p>
+
+    <hr>
+
+    <form name="visitForm" class="form-horizontal" novalidate>
+        <fieldset>
+
+            <div class="form-group" ng-class="{'has-error' : visitForm.visitId.$invalid && !visitForm.visitId.$pristine}">
+                <label class="col-md-4 control-label" for="visitId">Visit Id</label>
+                <div class="col-md-4">
+                    <input type="text" id="visitId" name="visitId" class="form-control input-md"
+                           placeholder="Visit Id (try 1234567890ab)"
+                           minlength="12" maxlength="12" ng-required="true"
+                           ng-model="newForm.extId" />
+					<span class="alert alert-error" ng-show="visitForm.visitId.$dirty && visitForm.visitId.$invalid">
+						<small ng-if="visitId.$error.required">Required</small>
+					</span>
+                </div>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error' : visitForm.locationId.$invalid && !visitForm.locationId.$pristine}">
+                <label class="col-md-4 control-label" for="locationId">Location Id</label>
+                <div class="col-md-4">
+                    <input type="text" id="locationId" name="locationId" class="form-control input-md"
+                           placeholder="Location Id (try MBI000001)"
+                           minlength="9" maxlength="9" ng-required="true"
+                           ng-model="newForm.visitLocation.extId" />
+					<span class="alert alert-error" ng-show="visitForm.locationId.$dirty && visitForm.locationId.$invalid">
+						<small ng-if="visitForm.locationId.extId.$error.required">Required</small>
+					</span>
+                </div>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error' : visitForm.fieldWorkerId.$invalid && !visitForm.fieldWorkerId.$pristine}">
+                <label class="col-md-4 control-label" for="fieldWorkerId">Field Worker Id</label>
+                <div class="col-md-4">
+                    <input type="text" id="fieldWorkerId" name="fieldWorkerId" class="form-control input-md"
+                           placeholder="Field Worker Id (try FWEK1D)"
+                           minlength="3" maxlength="6" ng-required="true"
+                           ng-model="newForm.collectedBy.extId" />
+					<span class="alert alert-error" ng-show="visitForm.fieldWorkerId.$dirty && visitForm.fieldWorkerId.$invalid">
+						<small ng-if="visitForm.fieldWorkerId.$error.required">Required</small>
+					</span>
+                </div>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error' : visitForm.visitDate.$invalid && !visitForm.visitDate.$pristine}">
+                <label class="col-md-4 control-label" for="visitDate">Visit Date</label>
+                <div class="col-md-4">
+                    <input type="text" id="visitDate" name="visitDate" class="form-control input-md"
+                           placeholder="Visit Date (try 0)"
+                           ng-required="true" min="0"
+                           ng-model="newForm.visitDate" />
+					<span class="alert alert-error" ng-show="visitForm.visitDate.$dirty && visitForm.visitDate.$invalid">
+						<small ng-if="visitForm.visitDate.$error.required">Required</small>
+					</span>
+                </div>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error' : visitForm.visitRound.$invalid && !visitForm.visitRound.$pristine}">
+                <label class="col-md-4 control-label" for="visitRound">Round</label>
+                <div class="col-md-4">
+                    <input type="text" id="visitRound" name="visitRound" class="form-control input-md"
+                           placeholder="Round (try 1)"
+                           ng-required="true" min="1"
+                           ng-model="newForm.roundNumber" />
+					<span class="alert alert-error" ng-show="visitForm.visitRound.$dirty && visitForm.visitRound.$invalid">
+						<small ng-if="visitForm.visitRound.$error.required">Required</small>
+					</span>
+                </div>
+            </div>
+
+
+        </fieldset>
+    </form>
+
+    <hr>
+
+    <button class="btn btn-default btn-inverse" ng-click="saveVisit()" ng-disabled="!visitForm.$valid">Save</button>
+    <button class="btn btn-default btn-inverse" ng-click="viewList()">Cancel</button>
+
+</div>
